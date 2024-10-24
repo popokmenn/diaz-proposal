@@ -52,6 +52,7 @@ function App() {
 
   const handleCloseModal = () => {
     setIsExiting(true);
+    setData({ ...dataItem, date: '' })
     setTimeout(() => {
       setShowModal(false);
       setIsExiting(false);
@@ -62,13 +63,12 @@ function App() {
     const { data, error } = await supabase
       .from('t_result')
       .insert([
-        { ...dataItem },
+        { ...dataItem, rate: rating },
       ])
       .select()
 
     console.log(data, error)
   }
-
   return (
     <div className="App">
       <header className="App-header">
@@ -110,11 +110,26 @@ function App() {
                   </div>
                 </div>
               )}
-              <input type="datetime-local" className="inp-datetime" onChange={(e) => setData({ ...dataItem, date: e.target.value })} />
+              {(showModal) && (
+                <div className={`modal ${isExiting ? 'modal-exit' : ''}`}>
+                  <div className="modal-content">
+                    <h3 style={{ marginBottom: 0 }}>Oops!</h3>
+                    <h4 style={{ fontSize: 18 }}>The date cannot be in the past. :(</h4>
+                    <img
+                      src={`${process.env.PUBLIC_URL}/lotso-angry.jpg`}
+                      alt="Museum"
+                      width={200}
+                      style={{ marginBottom: '2rem' }}
+                    />
+                    <div className="btn" onClick={handleCloseModal}>Okay</div>
+                  </div>
+                </div>
+              )}
+              <input type="datetime-local" className="inp-datetime" min={new Date().toISOString().split('T')[0]} onChange={(e) => setData({ ...dataItem, date: e.target.value })} />
               <div
                 className="btn hover-effect"
                 onClick={() => {
-                  if (dataItem.date === '') {
+                  if (dataItem.date === '' || new Date(dataItem.date) < new Date()) {
                     setShowModal(true)
                   } else {
                     handleNext()
