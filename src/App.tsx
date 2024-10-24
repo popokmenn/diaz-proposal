@@ -321,16 +321,16 @@ function App() {
                 <div className="card cardLeft">
                   <h1>Date <span>with Diaz</span></h1>
                   <div className="title">
-                    <h2>{dataItem.place}</h2>
-                    <span>movie</span>
-                  </div>
-                  <div className="name">
                     <h2>Qayla Aisha</h2>
                     <span>name</span>
                   </div>
+                  <div className="name">
+                    <h2>{dataItem.place}</h2>
+                    <span>activity</span>
+                  </div>
                   <div className="seat">
-                    <h2>156</h2>
-                    <span>seat</span>
+                    <h2>{new Date(dataItem.date).toLocaleDateString()}</h2>
+                    <span>date</span>
                   </div>
                   <div className="time">
                     <h2>{new Date(dataItem.date).getHours() + ":" + new Date(dataItem.date).getMinutes()}</h2>
@@ -340,11 +340,11 @@ function App() {
                 </div>
                 <div className="card cardRight">
                   <div className="eye"></div>
-                  <div className="number">
+                  {/* <div className="number">
                     <h3>156</h3>
                     <span>seat</span>
-                  </div>
-                  <div className="barcode"></div>
+                  </div> */}
+                  <img src={`${process.env.PUBLIC_URL}/handd.png`} alt="Barcode" width={100} style={{ marginTop: '5vh' }} />
                 </div>
 
               </div>
